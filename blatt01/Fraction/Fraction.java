@@ -1,7 +1,7 @@
 
 public class Fraction {
 
-	private int numerator;  //Zähler
+	private int numerator;  //Zaehler
 	private int denominator;  // Nenner
 	
 	public Fraction(int num) {
