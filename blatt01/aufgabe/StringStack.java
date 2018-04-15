@@ -10,6 +10,19 @@ public class StringStack {
    public StringStack() {
       this.first = null;
    }
+
+    /**
+     * @brief CopyConstructor (shallow)
+     * @param stack to copy
+     */
+   public StringStack(StringStack stack) {
+       if(stack.empty()) {
+           this.first = null;
+       }
+       else {
+           this.first = new StringStackEntry(stack.peek(), stack.first.getNext());
+       }
+   }
    
    private StringStackEntry first;
 
