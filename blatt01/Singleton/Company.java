@@ -29,4 +29,8 @@ public class Company {
         super.finalize();
         ticker.print(this.name + " " + "is insolvent");
     }
+
+    public double getStockprice() {
+        return this.stockprice;
+    }
 }
