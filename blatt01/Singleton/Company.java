@@ -30,6 +30,10 @@ public class Company {
         ticker.print(this.name + " " + "is insolvent");
     }
 
+    /**
+     * @brief returns stockPrice for testing purposes
+     * @return current stockprice
+     */
     public double getStockprice() {
         return this.stockprice;
     }
