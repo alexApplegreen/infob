@@ -1,3 +1,4 @@
+import java.util.Random;
 public class Tribut {
 
     private double x;
@@ -8,11 +9,16 @@ public class Tribut {
         this.x = x;
         this.y = y;
     }
-     // TODO
-    /*// Constructor that generates random coordinates inside the Arena
+    // Constructor that generates random coordinates inside the Arena
     public Tribut() {
-        this(Math.random...)
-    }*/
+        Random rand = new Random();
+        int alpha = rand.nextInt(360) + 1;
+        double scale = Math.random() + 0.1;
+        double x = scale * Math.cos(Math.toRadians(alpha));
+        double y = scale * Math.sin(Math.toRadians(alpha));
+        this.x = x;
+        this.y = y;
+    }
 
     public double getX() {
         return x;
