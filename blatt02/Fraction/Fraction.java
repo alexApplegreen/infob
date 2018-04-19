@@ -76,11 +76,20 @@ public class Fraction {
         return result;
     }
 
+    /**
+     * @brief adds 2 Fractions
+     * @param addend
+     * @return sum of 2 addends
+     */
     public Fraction add(Fraction addend) {
         int numtemp = this.numerator * addend.denominator;
         int dentemp = this.denominator * addend.denominator;
         int numtemp2 = addend.numerator * this.denominator;
         return new Fraction(numtemp + numtemp2, dentemp);
+    }
+
+    public Fraction substract(Fraction subtrahend) {
+        return this.add(subtrahend.multiply(-1));
     }
 
     /**
@@ -91,6 +100,23 @@ public class Fraction {
         String result = "";
         result = result + this.numerator + "/" + this.denominator;
         return result;
+    }
+
+    /**
+     * @brief parses a given string to a Fraction
+     * @param string
+     * @return
+     */
+    public static Fraction ParseFraction(String string) {
+        if (string.matches("[0-9]*\\/[0-9]*")) {
+            String[] parts = string.split("/");
+            int numerator = Integer.parseInt(parts[0]);
+            int denominator = Integer.parseInt(parts[1]);
+            return new Fraction(numerator, denominator);
+        }
+        else {
+            throw new RuntimeException("no Fraction as input");
+        }
     }
 
     private int euclid(int a, int b) {

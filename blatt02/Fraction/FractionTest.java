@@ -50,6 +50,12 @@ public class FractionTest {
             System.out.println("Adding of fractions failed");
         }
 
+        Fraction g = fraction4.substract(fraction5);
+        if (!g.toString().equals("1/4")) {
+            passed = false;
+            System.out.println("Substraction of fractions failed");
+        }
+
         boolean thrown = false;
         try {
             Fraction f = new Fraction(1, 0);
