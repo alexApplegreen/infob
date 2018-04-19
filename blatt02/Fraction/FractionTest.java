@@ -8,6 +8,8 @@ public class FractionTest {
         Fraction fraction1 = new Fraction(3);
         Fraction fraction2 = new Fraction(1, 8);
         Fraction fraction3 = new Fraction(3, 4);
+        Fraction fraction4 = new Fraction(1, 2);
+        Fraction fraction5 = new Fraction(1, 4);
 
         if (fraction1 == null) {
             passed = false;
@@ -40,6 +42,26 @@ public class FractionTest {
         if (!d.toString().equals("1/64")) {
             passed = false;
             System.out.println("Multiplication of multiple fractions failed");
+        }
+
+        Fraction e = fraction4.add(fraction5);
+        if (!e.toString().equals("3/4")) {
+            passed = false;
+            System.out.println("Adding of fractions failed");
+        }
+
+        boolean thrown = false;
+        try {
+            Fraction f = new Fraction(1, 0);
+        }
+        catch (RuntimeException ex) {
+            thrown = true;
+        }
+        finally {
+            if (!thrown) {
+                passed = false;
+                System.out.println("no exception!");
+            }
         }
 
         if (passed) {

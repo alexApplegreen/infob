@@ -16,6 +16,9 @@ public class Fraction {
      * @param denominator
      */
     public Fraction(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new RuntimeException("Division with 0!");
+        }
         int ggt = euclid(numerator, denominator);
 
         this.numerator = numerator/ggt;
@@ -71,6 +74,13 @@ public class Fraction {
         }
         Fraction result = new Fraction(numeratorNew, denominatorNew);
         return result;
+    }
+
+    public Fraction add(Fraction addend) {
+        int numtemp = this.numerator * addend.denominator;
+        int dentemp = this.denominator * addend.denominator;
+        int numtemp2 = addend.numerator * this.denominator;
+        return new Fraction(numtemp + numtemp2, dentemp);
     }
 
     /**
