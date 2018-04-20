@@ -24,10 +24,13 @@ public class ArenaTest {
         Tribut katniss = new Tribut(10.0, 10.0);
         Arena arena2 = new Arena(katniss);
 
-        // TODO
         if(arena2.checkCoordinates(katniss)) {
             passed = false;
             System.out.println("Error finding lost tribute");
+        }
+
+        for (int i = 0; i < tributes.length; i++) {
+            System.out.println(arena.getArea(tributes[i]));
         }
 
         if(passed) {

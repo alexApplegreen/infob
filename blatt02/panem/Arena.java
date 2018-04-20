@@ -19,13 +19,14 @@ public class Arena {
      * @return a slice of the arena occupied with given tribute
      */
     public int getArea(Tribut tribute) {
+        if (tribute.getX() == 0 && tribute.getY() == 0) {
+            return 1;
+        }
         // if tribute is inside arena:
-        if(checkCoordinates(tribute)) {
-            double a = Math.abs(tribute.getX());
-            double b = Math.abs(tribute.getY());
-            int alpha = (int)Math.toDegrees(Math.sin(a/b));
+        if (checkCoordinates(tribute)) {
+            int alpha = (int)Math.toDegrees(Math.sin(tribute.getX()/tribute.getY()));
             // instead of giant switch case:
-            return (alpha / 30) % 12;
+            return ((alpha / 30) % 12) + 1;
         }
         else {
             // errorcode: outside arena
@@ -34,12 +35,12 @@ public class Arena {
     }
 
     /**
-     * @brief checks if tribut is inside arena bounds
+     * @brief checks if tribute is inside arena bounds
      * @param tribut
-     * @return true, if tribut is inside arena, else false
+     * @return true, if tribute is inside arena, else false
      */
     public boolean checkCoordinates(Tribut tribut) {
-        return getDistance(tribut.getX(), tribut.getY()) < 1.5;
+        return getDistance(tribut.getX(), tribut.getY()) <= 1.5;
     }
 
     /**
