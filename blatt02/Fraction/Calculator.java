@@ -4,14 +4,13 @@ public class Calculator {
 
         if (args.length != 3) {
             System.err.println("Usage: [Fraction] operator [Fraction]");
-            System.exit();
         }
 
-        Fraction a = Fraction.parseFraction(args[0]);
-        Fraction b = Fraction.parseFraction(args[2]);
         char[] operator = args[1].toCharArray();
 
         try {
+            Fraction a = Fraction.parseFraction(args[0]);
+            Fraction b = Fraction.parseFraction(args[2]);
             switch ((int) operator[0]) {
                 case 42:
                     System.out.println(a.multiply(b));
