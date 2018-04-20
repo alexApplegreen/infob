@@ -107,7 +107,7 @@ public class Fraction {
      * @param string
      * @return
      */
-    public static Fraction ParseFraction(String string) {
+    public static Fraction parseFraction(String string) {
         if (string.matches("[0-9]*\\/[0-9]*")) {
             String[] parts = string.split("/");
             int numerator = Integer.parseInt(parts[0]);
