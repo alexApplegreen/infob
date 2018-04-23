@@ -7,8 +7,12 @@ public class FibonacciPrint {
         }
         Fibonacci f = new Fibonacci();
         System.out.println("| n |  f(n)  |");
-        for (int i = 0; i < Integer.parseInt(args[0]); i++) {
-            System.out.println(f.next());
-        }
+        System.out.println(f.next());
+        System.out.println(f.next());
+        System.out.println(f.next());
+        System.out.println(f.next());
+        System.out.println(f.next());
+        System.out.println(f.next());
+        System.out.println(f.next());
     }
 }
