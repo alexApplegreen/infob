@@ -2,15 +2,24 @@ public class Calculator {
 
     public static void main(String[] args) {
 
-        Fraction a = Fraction.parse(args[0]);
-        Fraction b = Fraction.parse(args[2]);
+        if (args.length != 3) {
+            System.err.println("Usage: java Calculator[Fraction] operator [Fraction]");
+        }
+
+        char[] operator = args[1].toCharArray();
+
         try {
-            switch ((int) args[1]) {
+            Fraction a = Fraction.parseFraction(args[0]);
+            Fraction b = Fraction.parseFraction(args[2]);
+            switch ((int) operator[0]) {
                 case 42:
                     System.out.println(a.multiply(b));
                     break;
                 case 43:
                     System.out.println(a.add(b));
+                    break;
+                case 45:
+                    System.out.println(a.substract(b));
                     break;
                 case 47:
                     System.out.println(a.divide(b));
