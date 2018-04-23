@@ -28,6 +28,7 @@ public class Calculator {
         }
         catch (RuntimeException e) {
             System.err.println("Division by 0!");
+            e.printStackTrace();
         }
     }
 }
