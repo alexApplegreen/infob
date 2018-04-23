@@ -108,7 +108,7 @@ public class Fraction {
      * @return
      */
     public static Fraction parseFraction(String string) {
-        if (string.matches("[0-9]*\\/[0-9]*")) {
+        if (string.matches("[0-9]*\\/[0-9]*") || string.matches("[0-9]*")) {
             String[] parts = string.split("/");
             int numerator = Integer.parseInt(parts[0]);
             int denominator = Integer.parseInt(parts[1]);
