@@ -88,6 +88,11 @@ public class Fraction {
         return new Fraction(numtemp + numtemp2, dentemp);
     }
 
+    /**
+     * @brief subtracts 2 Fractions
+     * @param subtrahend
+     * @return new Fraction
+     */
     public Fraction substract(Fraction subtrahend) {
         return this.add(subtrahend.multiply(-1));
     }
@@ -108,14 +113,18 @@ public class Fraction {
      * @return
      */
     public static Fraction parseFraction(String string) {
-        if (string.matches("[0-9]*\\/[0-9]*") || string.matches("[0-9]*")) {
+        // TODO
+        if (string.matches("[0-9]*\\/[0-9]*")) {
             String[] parts = string.split("/");
             int numerator = Integer.parseInt(parts[0]);
             int denominator = Integer.parseInt(parts[1]);
             return new Fraction(numerator, denominator);
         }
+        if (string.matches("[0-9]*")) {
+            return new Fraction(Integer.parseInt(string));
+        }
         else {
-            throw new RuntimeException("no Fraction as input");
+            throw new IllegalArgumentException("no Fraction as input");
         }
     }
 

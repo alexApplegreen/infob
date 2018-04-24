@@ -26,6 +26,10 @@ public class Calculator {
                     break;
             }
         }
+        catch (IllegalArgumentException e) {
+            System.err.println("No Fraction passed!");
+            e.printStackTrace();
+        }
         catch (RuntimeException e) {
             System.err.println("Division by 0!");
             e.printStackTrace();
