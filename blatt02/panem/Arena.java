@@ -24,9 +24,10 @@ public class Arena {
         }
         // if tribute is inside arena:
         if (checkCoordinates(tribute)) {
-            int alpha = (int)Math.toDegrees(Math.sin(tribute.getX()/tribute.getY()));
-            // instead of giant switch case:
-            return ((alpha / 30) % 12) + 1;
+            // alpha = arcsin(Gegenkathete / Hypothenuse)
+            double sinA = tribute.getX() / getDistance(tribute.getX(), tribute.getY());
+            double alpha = Math.toDegrees(Math.asin(sinA));
+            return (int)((Math.abs(alpha) / 30) % 12) + 1;
         }
         else {
             // errorcode: outside arena
@@ -50,6 +51,6 @@ public class Arena {
      * @return distance
      */
     public double getDistance(double x, double y) {
-        return Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0));
+        return Math.sqrt(Math.pow(Math.abs(x), 2.0) + Math.pow(Math.abs(y), 2.0));
     }
 }

@@ -22,15 +22,27 @@ public class ArenaTest {
 
         // new tribute outside arena
         Tribut katniss = new Tribut(10.0, 10.0);
-        Arena arena2 = new Arena(katniss);
 
-        if(arena2.checkCoordinates(katniss)) {
+        // new tribute inside area 4
+        Tribut ninty = new Tribut(1.0, 0.0);
+        Arena arena2 = new Arena(katniss, ninty);
+
+        // check if lost tribute is located outside arena
+        if (arena2.checkCoordinates(katniss)) {
             passed = false;
             System.out.println("Error finding lost tribute");
         }
 
-        for (int i = 0; i < tributes.length; i++) {
-            System.out.println(arena.getArea(tributes[i]));
+        // check if tribute in area 4 is located inside arena
+        if (!arena2.checkCoordinates(ninty)) {
+            passed = false;
+            System.out.println("Tribute at 90 degrees not found!");
+        }
+
+        // check if tribute is located in correct area
+        if (arena2.getArea(ninty) != 4) {
+            passed = false;
+            System.out.println("Tribute at 90 degrees found in wrong Area");
         }
 
         if(passed) {
