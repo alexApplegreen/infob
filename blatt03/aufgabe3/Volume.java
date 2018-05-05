@@ -71,9 +71,9 @@ public class Volume extends Geometry implements Comparable {
      * @param b Point
      * @return double euclidian distance
      */
-    protected double getDistance(Point a Point b) {
-        if (a.dimensions() != 2 || b.dimensions != 2) {
-            throw new illegalArgumentException("wrong params");
+    protected double getDistance(Point a, Point b) {
+        if (a.dimensions() != 2 || b.dimensions() != 2) {
+            throw new IllegalArgumentException("wrong params");
         }
 
         double[] coordsA = a.getCoords();
@@ -81,7 +81,7 @@ public class Volume extends Geometry implements Comparable {
         double ax = coordsA[0];
         double ay = coordsA[1];
         double bx = coordsB[0];
-        double by = coordsB[1]
+        double by = coordsB[1];
 
         if (ax == bx) {
             return Math.abs(by - ay);
@@ -90,7 +90,7 @@ public class Volume extends Geometry implements Comparable {
             return Math.abs(bx - by);
         }
         // TODO euclidian distance between 2 Points
-
+        return 0.0;
     }
 
     /**
