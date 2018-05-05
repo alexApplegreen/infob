@@ -19,6 +19,16 @@ public class Point extends Geometry implements Comparable {
     }
 
     /**
+     * @brief calculates euclidian distance to other Point
+     * @param other Point
+     * @return double euclidian distance
+     */
+    protected double getDistance(Point other) {
+        // TODO calculate distance from this to other point
+        return 0.0;
+    }
+
+    /**
      * @brief propagates dimension
      * @return int
      */
@@ -34,16 +44,41 @@ public class Point extends Geometry implements Comparable {
      */
     @Override
     public Geometry encapsulate(Geometry other) {
+        // Geometries need to share dimensional properties
         if(this.dimensions() != other.dimensions()) {
-            throw new IllegalArgumentException("wring params");
+            throw new IllegalArgumentException("wrong params");
         }
+        // Action is not applicable for < 2 dimensional geometries
         switch (this.dimensions()) {
             case 0:
                 return null;
             case 1:
                 return null;
             case 2:
-                //TODO Point.encapsulate()
+                if (other instanceof Point) {
+                    return new Volume(this, other);
+                }
+                if (other instanceof Volume) {
+                    double farest = 0;
+                    Point[] corners = other.getCorners();
+                    Point tmp;
+                    // Check distance to all 4 corners of other
+                    for (int i = 0; i < 4; i++) {
+                        double distance = getDistance(corners[i]);
+                        if (distance > farest) {
+                            farest = distance;
+                            tmp = corners[i];
+                        }
+                    }
+                    // Build Geometry with Points which are the farest apart
+                    try {
+                        // constructing might fail if the 2 points are perpendicular to axes
+                        Geometry result = new Geometry(this, tmp);
+                    } catch (IllegalArgumentExeption e) {
+                        System.out.err("Points do not span a Volume!");
+                    }
+                    return result;
+                }
         }
         return null;
     }
