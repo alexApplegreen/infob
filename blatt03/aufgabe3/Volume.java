@@ -45,9 +45,12 @@ public class Volume extends Geometry implements Comparable {
      * @brief calculates gradient of line from Point a to b
      * @return double gradient
      */
-    protected double getDelta() {
-        // TODO calculate Delta
-        return 0.0;
+    protected double getDelta(Point a, Point b) {
+        double x1 = a.getCoords()[0];
+        double y1 = a.getCoords()[1];
+        double x2 = b.getCoords()[0];
+        double y2 = b.getCoords()[1];
+        return Math.abs(x1) - Math.abs(x2) / Math.abs(y1) - Math.abs(y2);
     }
 
     /**
