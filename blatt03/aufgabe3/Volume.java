@@ -23,8 +23,14 @@ public class Volume extends Geometry implements Comparable {
 
         corners[0] = a;
         corners[1] = b;
-        corners[2] = new Point(searchMin(x[0], y[0]), searchMin(x[1], y[1]));
-        corners[3] = new Point(searchMax(x[0], y[0]), searchMax(x[1], y[1]));
+        if (getDelta(a, b) > 0) {
+            corners[2] = new Point(searchMin(x[0], y[0]), searchMin(x[1], y[1]));
+            corners[3] = new Point(searchMax(x[0], y[0]), searchMax(x[1], y[1]));
+        }
+        else {
+            corners[2] = new Point(searchMin(x[0], y[0]), searchMax(x[1], y[1]));
+            corners[3] = new Point(searchMax(x[0], y[0]), searchMin(x[1], y[1]));
+        }
     }
 
     /**
@@ -33,6 +39,15 @@ public class Volume extends Geometry implements Comparable {
      */
     public Point[] getCorners() {
         return this.corners;
+    }
+
+    /**
+     * @brief calculates gradient of line from Point a to b
+     * @return double gradient
+     */
+    protected double getDelta() {
+        // TODO calculate Delta
+        return 0.0;
     }
 
     /**
@@ -72,25 +87,29 @@ public class Volume extends Geometry implements Comparable {
      * @return double euclidian distance
      */
     protected double getDistance(Point a, Point b) {
-        if (a.dimensions() != 2 || b.dimensions() != 2) {
-            throw new IllegalArgumentException("wrong params");
+        double vx = 0;
+        double vx = 0;
+        double x1 = a.getCoords()[0];
+        double y1 = a.getCoords()[1];
+        double x2 = b.getCoords()[0];
+        double y2 = b.getCoords()[1];
+        if (x1 < 0) {
+            vx = x1;
         }
-
-        double[] coordsA = a.getCoords();
-        double[] coordsB = b.getCoords();
-        double ax = coordsA[0];
-        double ay = coordsA[1];
-        double bx = coordsB[0];
-        double by = coordsB[1];
-
-        if (ax == bx) {
-            return Math.abs(by - ay);
+        else {
+            vx = -x1;
         }
-        if (ay == by) {
-            return Math.abs(bx - by);
+        if (y1 < 0) {
+            vy = y1;
         }
-        // TODO euclidian distance between 2 Points
-        return 0.0;
+        else {
+            vy = -y1;
+        }
+        // Construct new Point and calculate Distance with Pythagoras
+        Point tmp = new Point(x2 + vx, y2 + vy);
+        double a = tmp.getCoords()[0];
+        double b = tmp.getCoords()[1];
+        return Math.sqrt(a * a + b * b);
     }
 
     /**
@@ -109,8 +128,32 @@ public class Volume extends Geometry implements Comparable {
      */
     @Override
     public Geometry encapsulate(Geometry other) {
-        // TODO Volume.encpasulate()
-        return null;
+        if (this.dimensions() != other.dimensions()) {
+            throw new IllegalArgumentException("wrong params");
+        }
+        if (this.dimensions() != 2) {
+            throw new RuntimeException("Action only applicable to 2 dimensional geometries");
+        }
+        // calculate longest distance between corners
+        double tmp = 0;
+        double range;
+        Point mem1 = null;
+        Point mem2 = null;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (getDistance(this.corners[i], other.getCorners()[j]) = range > tmp) {
+                    tmp = range;
+                    mem = new Point(this.corners[i]);
+                    mem2 = new Point(other.getCorners[j]);
+                }
+            }
+        }
+        try {
+            return new Volume(mem1, mem2);
+        }
+        catch (IllegalArgumentException()) {
+            System.err.println("Points do not span a Volume");
+        }
     }
 
     /**
@@ -119,9 +162,7 @@ public class Volume extends Geometry implements Comparable {
      */
     @Override
     public double volume() {
-        // TODO calculate Volume
-        //double a = Math.abs
-        return 0.0;
+
     }
 
     /**

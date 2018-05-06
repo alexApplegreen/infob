@@ -24,8 +24,32 @@ public class Point extends Geometry implements Comparable {
      * @return double euclidian distance
      */
     protected double getDistance(Point other) {
-        // TODO calculate distance from this to other point
-        return 0.0;
+        // Vector to move both points
+        double vx = 0;
+        double vy = 0;
+        // Coordinates of Point p1 and p2
+        double x1 = this.coordinates[0];
+        double y1 = this.coordinates[1];
+        double x2 = other.getCoords()[0];
+        double y2 = other.getCoords()[1];
+        // move this to E, adjust other accordingly
+        if (x1 < 0) {
+            vx = x1;
+        }
+        else {
+            vx = -x1;
+        }
+        if (y1 < 0) {
+            vy = y1;
+        }
+        else {
+            vy = -y1;
+        }
+        // Construct new Point and calculate Distance with Pythagoras
+        Point tmp = new Point(x2 + vx, y2 + vy);
+        double a = tmp.getCoords()[0];
+        double b = tmp.getCoords()[1];
+        return Math.sqrt(a * a + b * b);
     }
 
     /**
@@ -80,6 +104,7 @@ public class Point extends Geometry implements Comparable {
                         System.err.println("Points do not span a Volume!");
                     }
                 }
+                break;
         }
         return null;
     }
