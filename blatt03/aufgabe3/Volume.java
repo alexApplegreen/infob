@@ -91,7 +91,7 @@ public class Volume extends Geometry implements Comparable {
      */
     protected double getDistance(Point a, Point b) {
         double vx = 0;
-        double vx = 0;
+        double vy = 0;
         double x1 = a.getCoords()[0];
         double y1 = a.getCoords()[1];
         double x2 = b.getCoords()[0];
@@ -110,9 +110,9 @@ public class Volume extends Geometry implements Comparable {
         }
         // Construct new Point and calculate Distance with Pythagoras
         Point tmp = new Point(x2 + vx, y2 + vy);
-        double a = tmp.getCoords()[0];
-        double b = tmp.getCoords()[1];
-        return Math.sqrt(a * a + b * b);
+        double x = tmp.getCoords()[0];
+        double y = tmp.getCoords()[1];
+        return Math.sqrt(x * x + y * y);
     }
 
     /**
@@ -137,25 +137,44 @@ public class Volume extends Geometry implements Comparable {
         if (this.dimensions() != 2) {
             throw new RuntimeException("Action only applicable to 2 dimensional geometries");
         }
-        // calculate longest distance between corners
-        double tmp = 0;
-        double range;
-        Point mem1 = null;
-        Point mem2 = null;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (getDistance(this.corners[i], other.getCorners()[j]) = range > tmp) {
-                    tmp = range;
-                    mem = new Point(this.corners[i]);
-                    mem2 = new Point(other.getCorners[j]);
+        if (other instanceof Volume) {
+            Volume v = (Volume) other;
+            // calculate longest distance between corners
+            double tmp = 0;
+            double range;
+            Point mem1 = null;
+            Point mem2 = null;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (getDistance(this.corners[i], v.getCorners()[j]) = range > tmp) {
+                        tmp = range;
+                        mem1 = new Point(this.corners[i]);
+                        mem2 = new Point(v.getCorners()[j]);
+                    }
                 }
             }
+            try {
+                return new Volume(mem1, mem2);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Points do not span a Volume");
+            }
         }
-        try {
-            return new Volume(mem1, mem2);
-        }
-        catch (IllegalArgumentException()) {
-            System.err.println("Points do not span a Volume");
+        if (other instanceof Point) {
+            Point p = (Point) other;
+            double farest = 0;
+            Point mem = null;
+            for (int i = 0; i < 4; i++) {
+                if (double range = getDistance(this.corners[i], p) > farest) {
+                    farest = range;
+                    mem = this.corners[i];
+                }
+            }
+            try {
+                return new Volume(p, mem);
+            }
+            catch (IllegalArgumentException e) {
+                System.err.println("Points do not span a Volume!");
+            }
         }
     }
 
@@ -165,7 +184,7 @@ public class Volume extends Geometry implements Comparable {
      */
     @Override
     public double volume() {
-
+        // TODO calculate volume of volume
     }
 
     /**
@@ -180,5 +199,4 @@ public class Volume extends Geometry implements Comparable {
         Geometry geo = (Geometry) o;
         return (int) (this.volume() - geo.volume());
     }
-
 }
