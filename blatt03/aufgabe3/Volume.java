@@ -1,35 +1,34 @@
 public class Volume extends Geometry implements Comparable {
 
     // Array to store all 4 corners of volume
-    private Point corners[];
+    private Point[] corners;
 
     // Constructor
     public Volume(Point a, Point b) {
         super(2);
-
+        corners = new Point[4];
         if (a.dimensions() != 2 || b.dimensions() != 2) {
             throw new IllegalArgumentException("wrong params!");
         }
-
-        double[] x = a.getCoords();
-        double[] y = b.getCoords();
-
+        double ax = a.getCoords()[0];
+        double ay = a.getCoords()[1];
+        double bx = b.getCoords()[0];
+        double by = b.getCoords()[1];
         for (int i = 0; i < 2; i++) {
             // coords cannot be perpendicular to axes
-            if (x[i] == y[i]) {
+            if (ax == bx || ay == by) {
                 throw new IllegalArgumentException("wrong params");
             }
         }
-
-        corners[0] = a;
-        corners[1] = b;
+        this.corners[0] = a;
+        this.corners[1] = b;
         if (getDelta(a, b) > 0) {
-            corners[2] = new Point(searchMin(x[0], y[0]), searchMin(x[1], y[1]));
-            corners[3] = new Point(searchMax(x[0], y[0]), searchMax(x[1], y[1]));
+            corners[2] = new Point(searchMin(ax, bx), searchMin(ay, by));
+            corners[3] = new Point(searchMax(ax, bx), searchMax(ay, by));
         }
         else {
-            corners[2] = new Point(searchMin(x[0], y[0]), searchMax(x[1], y[1]));
-            corners[3] = new Point(searchMax(x[0], y[0]), searchMin(x[1], y[1]));
+            corners[2] = new Point(searchMin(ax, bx), searchMax(ax, bx));
+            corners[3] = new Point(searchMax(ax, bx), searchMin(ax, bx));
         }
     }
 
@@ -74,7 +73,7 @@ public class Volume extends Geometry implements Comparable {
      * @return double maximum
      */
     protected double searchMax(double... array) {
-        double tmp = 0;
+        double tmp = -Double.MAX_VALUE;
         for (int i = 0; i < array.length; i++) {
             if (tmp < array[i]) {
                 tmp = array[i];
@@ -130,7 +129,7 @@ public class Volume extends Geometry implements Comparable {
      * @return Geometry
      */
     @Override
-    public Geometry encapsulate(Geometry other) {
+    public Volume encapsulate(Geometry other) {
         if (this.dimensions() != other.dimensions()) {
             throw new IllegalArgumentException("wrong params");
         }
@@ -146,10 +145,11 @@ public class Volume extends Geometry implements Comparable {
             Point mem2 = null;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (getDistance(this.corners[i], v.getCorners()[j]) = range > tmp) {
+                    range = getDistance(this.corners[i], v.getCorners()[j]);
+                    if (range > tmp) {
                         tmp = range;
-                        mem1 = new Point(this.corners[i]);
-                        mem2 = new Point(v.getCorners()[j]);
+                        mem1 = this.corners[i];
+                        mem2 = v.getCorners()[j];
                     }
                 }
             }
@@ -162,9 +162,11 @@ public class Volume extends Geometry implements Comparable {
         if (other instanceof Point) {
             Point p = (Point) other;
             double farest = 0;
+            double range = 0;
             Point mem = null;
             for (int i = 0; i < 4; i++) {
-                if (double range = getDistance(this.corners[i], p) > farest) {
+                range = getDistance(this.corners[i], p);
+                if (range > farest) {
                     farest = range;
                     mem = this.corners[i];
                 }
@@ -176,6 +178,7 @@ public class Volume extends Geometry implements Comparable {
                 System.err.println("Points do not span a Volume!");
             }
         }
+        return null;
     }
 
     /**
@@ -184,7 +187,7 @@ public class Volume extends Geometry implements Comparable {
      */
     @Override
     public double volume() {
-        // TODO calculate volume of volume
+        return getDistance(corners[0], corners[2]) * getDistance(corners[1], corners[2]);
     }
 
     /**

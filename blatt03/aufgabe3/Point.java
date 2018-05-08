@@ -67,44 +67,38 @@ public class Point extends Geometry implements Comparable {
      * @return Minimum bounding box
      */
     @Override
-    public Geometry encapsulate(Geometry other) {
+    public Volume encapsulate(Geometry other) {
         // Geometries need to share dimensional properties
         if (this.dimensions() != other.dimensions()) {
             throw new IllegalArgumentException("wrong params");
         }
         // Action is not applicable for < 2 dimensional geometries
-        switch (this.dimensions()) {
-            case 0:
-                return null;
-            case 1:
-                return null;
-            case 2:
-                if (other instanceof Point) {
-                    Point p = (Point) other;
-                    return new Volume(this, p);
-                }
-                if (other instanceof Volume) {
-                    Volume v = (Volume) other;
-                    double farest = 0;
-                    Point[] corners = v.getCorners();
-                    Point tmp = null;
-                    // Check distance to all 4 corners of other
-                    for (int i = 0; i < 4; i++) {
-                        double distance = getDistance(corners[i]);
-                        if (distance > farest) {
-                            farest = distance;
-                            tmp = corners[i];
-                        }
-                    }
-                    // Build Geometry with Points which are the farest apart
-                    try {
-                        // constructing might fail if the 2 points are perpendicular to axes
-                        return new Volume(this, tmp);
-                    } catch (IllegalArgumentException e) {
-                        System.err.println("Points do not span a Volume!");
+        if (this.dimensions() == 2) {
+            if (other instanceof Point) {
+                Point p = (Point) other;
+                return new Volume(this, p);
+            }
+            if (other instanceof Volume) {
+                Volume v = (Volume) other;
+                double farest = 0;
+                Point[] corners = v.getCorners();
+                Point tmp = null;
+                // Check distance to all 4 corners of other
+                for (int i = 0; i < 4; i++) {
+                    double distance = getDistance(corners[i]);
+                    if (distance > farest) {
+                        farest = distance;
+                        tmp = corners[i];
                     }
                 }
-                break;
+                // Build Geometry with Points which are the farest apart
+                try {
+                    // constructing might fail if the 2 points are perpendicular to axes
+                    return new Volume(this, tmp);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Points do not span a Volume!");
+                }
+            }
         }
         return null;
     }
