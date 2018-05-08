@@ -36,7 +36,7 @@ public class GeometryTest {
         }
         catch (IllegalArgumentException e) {
             passed = false;
-            System.out.println("Construction via Point.encapsulate failed: " + e.getCause());
+            System.out.println("Construction via Point.encapsulate failed: ");
         }
         catch (Throwable t) {
             passed = false;
