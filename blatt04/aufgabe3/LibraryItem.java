@@ -9,4 +9,6 @@ public abstract class LibraryItem {
     public void setBorrowed(boolean isBorrowed) {
         this.isBorrowed = isBorrowed;
     }
+
+    public abstract String getDescription();
 }

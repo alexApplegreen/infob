@@ -1,6 +1,6 @@
 public class Book extends LibraryItem {
 
-    private String Title;
+    private String title;
     private String author;
 
     public Book(String title, String author) {

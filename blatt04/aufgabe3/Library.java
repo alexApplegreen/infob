@@ -1,29 +1,50 @@
+import util.*;
+
 public class Library {
 
     private List items;
+
     // Constructor
     public Library() {
         items = new List();
     }
 
     public void addItem(LibraryItem item) {
-        Entry e = new Entry(item);
-        items.add(e);
+        items.add(item);
     }
 
     public void deleteItem(LibraryItem item) {
+        boolean found = false;
+        LibraryItem tmp = null;
         items.reset();
-        while(!items.elem.getTitle().equals(item.getTitle())) {
-            items.advance();
+        while(!found) {
+            System.out.println("Schleifeneintritt");
+            tmp = (LibraryItem)items.elem();
+            if (tmp.getDescription().equals(item.getDescription())) {
+                items.delete();
+                found = true;
+            }
+            try {
+                items.advance();
+                System.out.println("advancing");
+            }
+            catch (RuntimeException e) {
+                System.out.println("Item not found");
+            }
         }
-        items.delete();
     }
 
-    public LibraryItem search(String text) {
+    public List search(String text) {
         items.reset();
-        while(!items.elem.getTitle().equals(text)) {
-            items.advance();
+        List results = new List();
+        LibraryItem tmp = null;
+        while(!items.endpos()) {
+            tmp = (LibraryItem)items.elem();
+            if (tmp.getDescription().toLowerCase().contains(text.toLowerCase())) {
+                results.add(tmp);
+                items.advance();
+            }
         }
-        items.elem();
+        return results;
     }
 }
