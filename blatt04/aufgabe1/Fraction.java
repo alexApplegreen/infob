@@ -120,7 +120,12 @@ public class Fraction extends Number {
      */
     public String toString() {
         String result = "";
-        result = result + this.numerator + "/" + this.denominator;
+        if (this.denominator == 1) {
+            result += this.numerator;
+        }
+        else {
+            result = result + this.numerator + "/" + this.denominator;
+        }
         return result;
     }
 
@@ -131,14 +136,19 @@ public class Fraction extends Number {
      */
     public static Fraction parseFraction(String string) {
         // TODO fix regex to accept floatpoint
-        if (string.matches("[0-9]*\\/[0-9]*")) {
+        String floatRegex = "[-]?[0-9]*\\.?[0-9]+";
+        if (string.matches("[0-9]*\\/[0-9]*") ||
+            string.matches("[-]?[0-9]*\\.?[0-9]+\\/[-]?[0-9]*\\.?[0-9]+")) {
             String[] parts = string.split("/");
             float numerator = Float.parseFloat(parts[0]);
             float denominator = Float.parseFloat(parts[1]);
             return new Fraction(numerator, denominator);
         }
         if (string.matches("[0-9]*")) {
-            return new Fraction(Integer.parseInt(string));
+            return new Fraction(Float.parseFloat(string));
+        }
+        if (string.matches(floatRegex)) {
+            return new Fraction(Float.parseFloat(string));
         }
         else {
             throw new IllegalArgumentException("no Fraction as input");
