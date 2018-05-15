@@ -14,23 +14,15 @@ public class Library {
     }
 
     public void deleteItem(LibraryItem item) {
-        boolean found = false;
-        LibraryItem tmp = null;
         items.reset();
-        while(!found) {
-            System.out.println("Schleifeneintritt");
+        LibraryItem tmp = null;
+        while (!items.endpos()) {
             tmp = (LibraryItem)items.elem();
             if (tmp.getDescription().equals(item.getDescription())) {
                 items.delete();
-                found = true;
-            }
-            try {
                 items.advance();
-                System.out.println("advancing");
             }
-            catch (RuntimeException e) {
-                System.out.println("Item not found");
-            }
+            items.advance();
         }
     }
 
@@ -44,6 +36,7 @@ public class Library {
                 results.add(tmp);
                 items.advance();
             }
+            items.advance();
         }
         return results;
     }

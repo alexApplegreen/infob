@@ -37,25 +37,18 @@ public class LibraryTest {
             counter++;
             results.advance();
         }
-        if (counter != 2) {
+        if (counter != 1) {
             passed = false;
             System.out.println("Library.search does not work");
         }
 
         lib.deleteItem(got);
         Throwable t = null;
-        try {
-            results = lib.search("Eis und Feuer");
-        }
-        catch (RuntimeException e) {
-            t = e;
-            System.out.println("found exception");
-        }
-        if (t == null) {
+        results = lib.search("Eis und Feuer");
+        if (!results.empty()) {
             passed = false;
-            System.out.println("found non existing item");
+            System.out.println("found deleted item");
         }
-
         if (passed) {
             System.out.println("all tests passed");
         }
