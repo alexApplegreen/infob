@@ -1,12 +1,14 @@
 import util.*;
+import java.lang.Math.*;
 
-public class ObjectHashing<T> implements HashSet {
+public class ObjectHashing<T> implements HashSet<T> {
 
 
     private List[] set;
 
     // Constructor
     public ObjectHashing() {
+        set = new List[10];
         // instanciate 10 Lists inside Array
         for (int i = 0; i < 10; i++) {
             set[i] = new List();
@@ -18,7 +20,6 @@ public class ObjectHashing<T> implements HashSet {
      * @param o
      * @return boolean true if o is contained, else false
      */
-    @Override
     public boolean contains(T o) {
         int key = generateKey(o);
         List container = set[key];
@@ -38,12 +39,11 @@ public class ObjectHashing<T> implements HashSet {
      * @param o generic
      * @return boolean true if insertion was successful, else false
      */
-    @Override
     public boolean insert(T o) {
         int key = generateKey(o);
         List container = set[key];
         while(!container.endpos()) {
-            advance();
+            container.advance();
         }
         // TODO check if this can possibly fail
         container.add(o);
@@ -55,7 +55,6 @@ public class ObjectHashing<T> implements HashSet {
      * @param o generic
      * @return boolean true if deletion was successful, else false
      */
-    @Override
     public boolean delete(T o) {
         if(this.contains(o)) {
             int key = generateKey(o);
@@ -63,15 +62,25 @@ public class ObjectHashing<T> implements HashSet {
             while(!container.endpos()) {
                 if(container.elem().equals(o)) {
                     container.delete();
+                    return true;
                 }
                 else {
                     container.advance();
                 }
             }
+            return false;
+        }
+        else {
+            throw new RuntimeException("Object is not included in set");
         }
     }
 
+    /**
+     * @brief helper function for hashing
+     * @param o generic
+     * @return int hashcode of generic
+     */
     private int generateKey(T o) {
-        return T.hashCode() % 10;
+        return Math.abs(o.hashCode() % 10);
     }
 }
