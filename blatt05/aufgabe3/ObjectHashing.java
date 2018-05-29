@@ -5,6 +5,7 @@ public class ObjectHashing<T> implements HashSet<T> {
 
 
     private List[] set;
+    private MyHash myhash;
 
     // Constructor
     public ObjectHashing() {
@@ -13,6 +14,7 @@ public class ObjectHashing<T> implements HashSet<T> {
         for (int i = 0; i < 10; i++) {
             set[i] = new List();
         }
+        myhash = new MyHash();
     }
 
     /**
@@ -81,6 +83,6 @@ public class ObjectHashing<T> implements HashSet<T> {
      * @return int hashcode of generic
      */
     private int generateKey(T o) {
-        return Math.abs(o.hashCode() % 10);
+        return Math.abs(myhash.hashCode(o) % 10);
     }
 }
