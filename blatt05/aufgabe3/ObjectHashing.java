@@ -23,7 +23,7 @@ public class ObjectHashing<T> implements HashSet<T> {
      * @return boolean true if o is contained, else false
      */
     public boolean contains(T o) {
-        int key = generateKey(o);
+        int key = this.generateKey(o);
         List container = set[key];
         while(!container.endpos()) {
             if (container.elem().equals(o)) {
@@ -42,7 +42,7 @@ public class ObjectHashing<T> implements HashSet<T> {
      * @return boolean true if insertion was successful, else false
      */
     public boolean insert(T o) {
-        int key = generateKey(o);
+        int key = this.generateKey(o);
         List container = set[key];
         while(!container.endpos()) {
             container.advance();
@@ -59,7 +59,7 @@ public class ObjectHashing<T> implements HashSet<T> {
      */
     public boolean delete(T o) {
         if(this.contains(o)) {
-            int key = generateKey(o);
+            int key = this.generateKey(o);
             List container = set[key];
             while(!container.endpos()) {
                 if(container.elem().equals(o)) {
