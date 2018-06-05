@@ -1,3 +1,7 @@
+package Aufgabe1;
+
+import java.io.IOException;
+
 public class UncertainException {
 
    private int i = 0;
@@ -74,7 +78,7 @@ public class UncertainException {
             i++;
          } finally {
             i++;
-            throw new RuntimeException();
+            //throw new RuntimeException();
          }
       }
       return i++;
@@ -152,7 +156,7 @@ public class UncertainException {
       }
    }
 
-   public int uncertain10() {
+   public int uncertain10() throws IOException {
       try {
          throw new java.io.IOException();
       } catch (RuntimeException e) {
