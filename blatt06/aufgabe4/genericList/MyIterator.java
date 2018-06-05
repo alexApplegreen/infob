@@ -1,4 +1,5 @@
 package genericList;
+import java.util.*;
 
 public class MyIterator<T> implements Iterator<T> {
 
@@ -7,7 +8,7 @@ public class MyIterator<T> implements Iterator<T> {
     private int pos;
     private boolean isAllowedToRemove;
 
-    public MyIterator<T>(int modCount, GenericList<T> list) {
+    public MyIterator(int modCount, GenericList<T> list) {
         this.modCount = modCount;
         aggregate = list;
         pos = 0;
@@ -22,6 +23,9 @@ public class MyIterator<T> implements Iterator<T> {
         isAllowedToRemove = true;
         if (!hasNext()) {
             throw new NoSuchElementException();
+        }
+        if (aggregate.getMods() != this.modCount) {
+            throw new IllegalStateException("Modcounts differ!");
         }
         T result = aggregate.elem();
         this.pos++;
@@ -38,5 +42,8 @@ public class MyIterator<T> implements Iterator<T> {
             aggregate.advance();
             aggregate.delete();
         }
+        this.modCount++;
+        aggregate.incMods();
+        this.isAllowedToRemove = false;
     }
 }

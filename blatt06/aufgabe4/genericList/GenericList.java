@@ -116,6 +116,10 @@ public class GenericList<T> implements Cloneable {
         return this.modCount;
     }
 
+    public void incMods() {
+        this.modCount++;
+    }
+
     public MyIterator<T> getIterator() {
         return new MyIterator(this.getMods(), this);
     }
