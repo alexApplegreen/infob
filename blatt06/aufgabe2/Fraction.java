@@ -15,7 +15,11 @@ public class Fraction extends Number {
     * Fraction.
     */
    public static final String REGEX = "-?\\d+/[1-9]\\d*";
-   static HashSet<Fraction> hash = new HashSet();
+   static HashMap<Fraction, Fraction> hash;
+
+   static {
+      hash = new HashMap<>();
+   }
 
    /**
     * Creates greatest common divisor for a and b.
@@ -70,10 +74,6 @@ public class Fraction extends Number {
     * @param denominator
     */
 
-   public Fraction(Fraction f) {
-      this.denominator = f.getDenominator();
-      this.numerator = f.getNumerator();
-   }
 
    public Fraction(int numerator, int denominator) {
       if (denominator == 0) {
@@ -92,19 +92,22 @@ public class Fraction extends Number {
       }
       this.numerator = numerator / gcd;
       this.denominator = denominator / gcd;
+   }
 
-      System.out.println(this);
-
-      if (!hash.add(this)) {
-         if (hash.contains(this)) {
-            System.out.println("element found");
-         }
+   public static Fraction getReference(int num, int den) {
+      int gcd = Fraction.gcd(num, den);
+      Fraction f = new Fraction(num / gcd, den / gcd);
+      if (hash.containsKey(f)) {
+         return hash.get(f);
+      }
+      else {
+         hash.put(f, f);
+         return f;
       }
    }
 
-   private Fraction getReference(Fraction f) {
-      System.out.println("found reference!");
-      return new Fraction(f);
+   public static Fraction getReference(int num) {
+      return getReference(num, 1);
    }
 
    /**
