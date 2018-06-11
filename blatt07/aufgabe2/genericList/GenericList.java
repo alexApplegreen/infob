@@ -1,9 +1,10 @@
 package genericList;
 import java.util.*;
+import util.*;
 
 // Erbt nicht, weil add() sonst Probleme macht bzgl override
 
-public class GenericList<T> implements Cloneable, Iterable, Visitable {
+public class GenericList<T> implements Cloneable, Iterable<T>, Visitable<T> {
 
     /**
      * Reference on the first Entry of this List
@@ -113,6 +114,20 @@ public class GenericList<T> implements Cloneable, Iterable, Visitable {
         pos.next = pos.next.next;
     }
 
+    /**
+     * @brief iterates over list with Visitor as long as continues is true
+     * @param v
+     */
+    @Override
+    public void accept(Visitor<T> v) {
+        GenericEntry<T> elem = this.begin.next;
+        boolean continues = true;
+
+        while (elem != null && (continues = v.visit(elem.o))) {
+            elem = elem.next;
+        }
+    }
+
     public int getMods() {
         return this.modCount;
     }
@@ -124,12 +139,6 @@ public class GenericList<T> implements Cloneable, Iterable, Visitable {
     public MyIterator<T> iterator() {
         return new MyIterator(this.getMods(), this);
     }
-
-    public T accept(Visitor v) {
-        // TODO
-        return null;
-    }
-
 
     public GenericList clone() {
         try {
