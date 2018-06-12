@@ -48,6 +48,7 @@ public class WrapperTest {
                     passed = false;
                 }
             }
+            wrapper1.next();
         }
 
         wrapper1.close();
@@ -59,6 +60,7 @@ public class WrapperTest {
         }
 
         IntArrayWrapper wrapper2 = new IntArrayWrapper("Test");
+
         try {
             wrapper2.change(2, 3);
         } catch (RuntimeException e) {
