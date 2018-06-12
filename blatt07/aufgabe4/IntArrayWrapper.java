@@ -2,6 +2,12 @@ package aufgabe4;
 
 import java.io.*;
 
+//TODO JavaDoc!
+
+
+/**
+ * Makes it possible to save an int-Array persistently, to iterate over it and change it.
+ */
 public class IntArrayWrapper {
 
     private int[] array;
@@ -9,6 +15,11 @@ public class IntArrayWrapper {
     private File file;
     private RandomAccessFile raf;
 
+    /**
+     * @brief Constructor for a new array
+     * @param arr
+     * @param name of the file the array is saved to
+     */
     public IntArrayWrapper(int[] arr, String name) {
 
         array = arr;
@@ -38,6 +49,10 @@ public class IntArrayWrapper {
         }
     }
 
+    /**
+     * @brief Constructor using an existing file
+     * @param name
+     */
     public IntArrayWrapper(String name) {
         File tmp = new File(name);
         if (tmp.exists()) {
@@ -52,14 +67,26 @@ public class IntArrayWrapper {
         }
     }
 
+    /**
+     * @brief Changes the position to the next element
+     */
     public void next() {
         pos += 1;
     }
 
+    /**
+     * Returns the element on the actual position of the array
+     * @return
+     */
     public int getElement() {
         return array[pos];
     }
 
+    /**
+     * Changes the value on the given position to the given number
+     * @param num
+     * @param pos
+     */
     public void change(int num, int pos) {
         array[pos - 1] = num;
         try {
@@ -80,24 +107,30 @@ public class IntArrayWrapper {
         }
     }
 
+    /**
+     * Resets the position to 0
+     */
     public void resetPos() {
         pos = 0;
     }
 
+    /**
+     * Returns the number of elements in the array
+     * @return
+     */
     public int numberOfElements() {
         return array.length;
     }
 
+    /**
+     * Closes the RandomAccessFile
+     */
     public void close() {
         try {
             raf.close();
         } catch (IOException e) {
             throw new RuntimeException("Could not close file");
         }
-    }
-
-    public RandomAccessFile getRaf() {
-        return raf;
     }
 
 }
