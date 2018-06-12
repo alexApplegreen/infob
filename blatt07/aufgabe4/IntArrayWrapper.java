@@ -75,7 +75,7 @@ public class IntArrayWrapper {
     }
 
     /**
-     * Returns the element on the actual position of the array
+     * Returns the element on the current position of the array
      * @return
      */
     public int getElement() {
@@ -88,14 +88,14 @@ public class IntArrayWrapper {
      * @param pos
      */
     public void change(int num, int pos) {
-        array[pos - 1] = num;
+        array[pos] = num;
         try {
             raf.seek(0);
         } catch (IOException e) {
             throw new RuntimeException("Could not go to begin of file");
         }
         try {
-            raf.skipBytes((pos - 1) * 4);
+            raf.skipBytes((pos) * 4);
         } catch (IOException e) {
             throw new RuntimeException("Could not skip to position");
         }
@@ -112,6 +112,14 @@ public class IntArrayWrapper {
      */
     public void resetPos() {
         pos = 0;
+    }
+
+    /**
+     * Returns current position
+     * @return
+     */
+    public int getPos(){
+        return pos;
     }
 
     /**
