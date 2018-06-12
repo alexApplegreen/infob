@@ -54,13 +54,19 @@ public class IntArrayWrapper {
      * @param name
      */
     public IntArrayWrapper(String name) {
-        File tmp = new File(name);
-        if (tmp.exists()) {
-            file = tmp;
+        File file = new File(name);
+        if (file.exists()) {
             try {
                 raf = new RandomAccessFile(file, "rw");
+                int length = (((int)raf.length()) / 4);
+                array = new int[length];
+                for (int i = 0; i < length; i++) {
+                    array[i] = raf.readInt();
+                }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException("File does not exist");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             throw new RuntimeException("File not Found");
@@ -141,4 +147,8 @@ public class IntArrayWrapper {
         }
     }
 
+    public boolean fileExists(String name) {
+        File tmp = new File(name);
+        return file.exists();
+    }
 }
