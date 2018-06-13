@@ -2,6 +2,8 @@ public class Calculator {
 
     public static void main(String[] args) {
 
+        // jar cfm Calculator.jar Manifest.txt ./*.class
+        // Manifest.txt spezifiziert entrypoint (main-Methode)
         if (args.length != 3) {
             System.err.println("Usage: java Calculator [Fraction] operator [Fraction]");
         }

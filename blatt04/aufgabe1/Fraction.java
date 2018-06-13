@@ -25,7 +25,7 @@ public class Fraction extends Number {
         this.numerator = numerator/ggt;
         this.denominator = denominator/ggt;
     }
-
+    // implemenatation of abstract number methods
     public int intValue() {
         return (int)(this.numerator / this.denominator);
     }
@@ -120,7 +120,7 @@ public class Fraction extends Number {
      */
     public String toString() {
         String result = "";
-        if (this.denominator == 1) {
+        if (this.denominator == 1.0) {
             result += this.numerator;
         }
         else {
@@ -135,7 +135,6 @@ public class Fraction extends Number {
      * @return
      */
     public static Fraction parseFraction(String string) {
-        // TODO fix regex to accept floatpoint
         String floatRegex = "[-]?[0-9]*\\.?[0-9]+";
         if (string.matches("[0-9]*\\/[0-9]*") ||
             string.matches("[-]?[0-9]*\\.?[0-9]+\\/[-]?[0-9]*\\.?[0-9]+")) {

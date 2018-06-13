@@ -12,6 +12,11 @@ public class LibraryTest {
 
         Book got = new Book("Das Lied von Eis und Feuer", "George RR Martin");
 
+        if (got.isBorrowed()) {
+            passed = false;
+            System.out.println("isBorrowed() does not work");
+        }
+
         if (!sw1.getDescription().equals("George Lucas - Star Wars Episode I")) {
             passed = false;
             System.out.println("BluRay.getDescription does not work");

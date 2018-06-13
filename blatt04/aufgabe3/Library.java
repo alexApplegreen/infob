@@ -9,10 +9,16 @@ public class Library {
         items = new List();
     }
 
+    /**
+     * @brief add item to collection
+     **/
     public void addItem(LibraryItem item) {
         items.add(item);
     }
 
+    /**
+     * @brief delete item from collection
+     **/
     public void deleteItem(LibraryItem item) {
         items.reset();
         LibraryItem tmp = null;
@@ -26,6 +32,10 @@ public class Library {
         }
     }
 
+    /**
+     * @brief search and return list of found items
+     * @return List of LibraryItems
+     **/
     public List search(String text) {
         items.reset();
         List results = new List();
