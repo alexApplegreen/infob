@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.*;
 
 public class MyReader extends BufferedReader {
 
@@ -38,14 +39,15 @@ public class MyReader extends BufferedReader {
      */
     public String search() throws IOException {
         String line;
-        // TODO use regex matcher instead of string comparison
+        Pattern pattern = Pattern.compile(this.regex);
         while ((line = this.readLine()) != null) {
-            if (line.contains(this.regex)) {
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
                 this.matches++;
                 return line;
             }
         }
-        return line;
+        return null;
     }
 
     /**
@@ -71,7 +73,6 @@ public class MyReader extends BufferedReader {
         try {
             InputStreamReader isr = new InputStreamReader(System.in);
             MyReader reader = new MyReader(isr, args[0]);
-
             System.out.println(reader.search());
             System.out.println("Matches: " + reader.getAmountOfMatches());
         }
