@@ -3,49 +3,77 @@ import java.io.*;
 public class MyReader extends BufferedReader {
 
     private String regex;
-    private File handle;
     private int matches;
+    private int linenumber;
 
     /**
      * @brief constructor
-     * @param handle file to read from
+     * @param isr InputStreamReader
      * @param regex String to read in read file
      * @throws IOException
      */
-    public MyReader(FileReader fr, String regex)  {
-        super(fr);
+    public MyReader(InputStreamReader isr, String regex)  {
+        super(isr);
         this.regex = regex;
         this.matches = 0;
+        this.linenumber = 0;
     }
 
     /**
-     * @brief reads a single line from file
+     * @brief reads a single line from file, keeps track of lineneumber
      * @return String line
      */
     public String readLine() throws IOException {
-        return super.readLine();
+        String line = super.readLine();
+        if (line != null) {
+            this.linenumber++;
+        }
+        return line;
     }
 
+    /**
+     * @brief searches file for regex matches
+     * @return String line in which regex is found
+     * @throws IOException
+     */
+    public String search() throws IOException {
+        String line;
+        // TODO use regex matcher instead of string comparison
+        while ((line = this.readLine()) != null) {
+            if (line.contains(this.regex)) {
+                this.matches++;
+                return line;
+            }
+        }
+        return line;
+    }
+
+    /**
+     * @brief getter for amount of matches
+     * @return int
+     */
     public int getAmountOfMatches() {
         return this.matches;
     }
 
+    /**
+     * @brief getter for linenumber of last read line
+     * @return int
+     */
+    public int getLinenumber() {
+        return this.linenumber;
+    }
+
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Keine Datei angegeben");
+            throw new RuntimeException("no regex given");
         }
-        File file = new File(args[0]);
         try {
-            FileReader fr = new FileReader(file);
-            MyReader reader = new MyReader(fr, null);
+            InputStreamReader isr = new InputStreamReader(System.in);
+            MyReader reader = new MyReader(isr, args[0]);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not foun!");
+            System.out.println(reader.search());
+            System.out.println("Matches: " + reader.getAmountOfMatches());
         }
         catch (IOException ex) {
             ex.printStackTrace();
