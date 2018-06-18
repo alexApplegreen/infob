@@ -1,10 +1,9 @@
 import java.io.*;
 
-public class MyReader {
+public class MyReader extends BufferedReader {
 
     private String regex;
     private File handle;
-    private int lineNumber;
     private int matches;
 
     /**
@@ -13,10 +12,9 @@ public class MyReader {
      * @param regex String to read in read file
      * @throws IOException
      */
-    public MyReader(String handle, String regex)  {
-        this.handle = new File(handle);
+    public MyReader(FileReader fr, String regex)  {
+        super(fr);
         this.regex = regex;
-        this.lineNumber = 0;
         this.matches = 0;
     }
 
@@ -24,33 +22,8 @@ public class MyReader {
      * @brief reads a single line from file
      * @return String line
      */
-    public String readLine() {
-        String line;
-        try (BufferedReader br = new BufferedReader(new FileReader(handle))) {
-            if (this.lineNumber != 0) {
-                while ((br.read() != 10)) {
-                    br.skip(1);
-                }
-            }
-            if ((line = br.readLine()) != null) {
-                this.lineNumber++;
-                if (this.regex != null) {
-                    if (line.contains(this.regex)) {
-                        this.matches++;
-                    }
-                }
-                return line;
-            }
-            return null;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public int getLineNumber() {
-        return this.lineNumber;
+    public String readLine() throws IOException {
+        return super.readLine();
     }
 
     public int getAmountOfMatches() {
@@ -58,11 +31,24 @@ public class MyReader {
     }
 
     public static void main(String[] args) {
-        MyReader reader = new MyReader(args[0], null);
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        if (args.length != 1) {
+            System.out.println("Keine Datei angegeben");
         }
-        System.out.println(reader.lineNumber);
+        File file = new File(args[0]);
+        try {
+            FileReader fr = new FileReader(file);
+            MyReader reader = new MyReader(fr, null);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not foun!");
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
