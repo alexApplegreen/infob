@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class OpenHashSet<T> implements HashSet<T>, Serializable {
 
-    private transient MyList<T>[] buckets;
+    private MyList<T>[] buckets;
     private HashFunction<? super T> hashFunction;
     private static final long serialVersionUID = 34602942123982377L;
 
@@ -48,13 +48,19 @@ public class OpenHashSet<T> implements HashSet<T>, Serializable {
         out.writeInt(size);
 
         for (int i = 0; i < size; i++) {
-            if (buckets[i] != null) {
+            if (!buckets[i].empty()) {
+                out.writeBoolean(true);
                 out.writeObject(buckets[i]);
+            } else {
+                out.writeBoolean(false);
             }
         }
 
         if (hashFunction != null) {
+            out.writeBoolean(true);
             out.writeObject(hashFunction);
+        } else {
+            out.writeBoolean(false);
         }
 
     }
@@ -64,10 +70,18 @@ public class OpenHashSet<T> implements HashSet<T>, Serializable {
         buckets = new MyList[size];
 
         for (int i = 0; i < size; i++) {
-            buckets[i] = (MyList<T>) in.readObject();
+            if (in.readBoolean()) {
+                buckets[i] = (MyList<T>) in.readObject();
+            } else {
+                buckets[i] = new MyList<>();
+            }
         }
 
-        hashFunction = (HashFunction<? super T>) in.readObject();
+        if (in.readBoolean()) {
+            hashFunction = (HashFunction) in.readObject();
+        } else {
+            hashFunction = null;
+        }
 
 
     }
