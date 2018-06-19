@@ -45,16 +45,15 @@ public class SearchFile {
         }
         File[] ls = file.listFiles();
         for (int i = 0; i < ls.length; i++) {
+            Matcher matcher = this.pattern.matcher(ls[i].getName());
             if (ls[i].isDirectory()) {
-                Matcher matcher = this.pattern.matcher(ls[i].getName());
                 if (matcher.find()) {
                     this.list.add(indent + ls[i].getAbsolutePath());
                 }
                 if (this.recursive) {
-                    search(ls[i], sublevel++);
+                    search(ls[i], ++sublevel);
                 }
             } else if (ls[i].isFile()) {
-                Matcher matcher = this.pattern.matcher(ls[i].getName());
                 if (matcher.find()) {
                     this.list.add(indent + ls[i].getAbsolutePath());
                 }
@@ -88,8 +87,6 @@ public class SearchFile {
         for (int i = 0; i < args.length; i++) {
             if (args[i].contains("-r")) {
                 recursive = true;
-            } else {
-                recursive = false;
             }
             if (args[i].contains("-p")) {
                 pattern = args[i + 1];
@@ -97,6 +94,9 @@ public class SearchFile {
             }
         }
         filename = args[args.length - 1];
+        if (filename.toLowerCase().contains("-r") || filename.toLowerCase().contains("-p")) {
+            throw new IllegalArgumentException(SearchFile.usage());
+        }
 
         File root = new File(filename);
         SearchFile sf = new SearchFile(pattern, filename, recursive);
