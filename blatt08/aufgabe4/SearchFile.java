@@ -74,7 +74,7 @@ public class SearchFile {
      * @return string usage
      */
     public static String usage() {
-        return "java search [-r] [-p pattern] {directory}";
+        return "Usage: java search [-r] [-p pattern] {directory}";
     }
 
     public static void main(String[] args) {

@@ -44,7 +44,7 @@ public class MyReader extends BufferedReader {
             Matcher matcher = pattern.matcher(line);
             if (matcher.find()) {
                 this.matches++;
-                return line;
+                return line + " in line: " + this.getLinenumber();
             }
         }
         return null;
