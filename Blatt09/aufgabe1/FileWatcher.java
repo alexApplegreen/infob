@@ -7,6 +7,7 @@ public class FileWatcher extends TimerTask {
     private File file;
     private long interval;
     private Timer timer;
+    private long lastSize;
 
     /**
      * @brief constructor
@@ -25,6 +26,8 @@ public class FileWatcher extends TimerTask {
         if (!this.file.exists()) {
             throw new RuntimeException("File does not exist");
         }
+
+        this.lastSize = 0L;
 
         // schedule timertask
         this.timer = new Timer();
@@ -47,7 +50,11 @@ public class FileWatcher extends TimerTask {
      */
     @Override
     public void run() {
-        System.out.println(this.file.length() + " bytes");
+        long currentSize = this.file.length();
+        if (currentSize != this.lastSize) {
+            System.out.println(currentSize + " bytes");
+        }
+        this.lastSize = currentSize;
     }
 
     public static void main(String[] args) {
