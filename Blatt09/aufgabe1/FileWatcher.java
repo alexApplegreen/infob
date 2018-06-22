@@ -1,16 +1,38 @@
 import java.io.*;
 import java.lang.*;
+import java.util.*;
 
-public class FileWatcher extends Thread {
+public class FileWatcher extends TimerTask {
 
     private File file;
+    private long interval;
+    private Timer timer;
 
-    public FileWatcher(String path) {
+    /**
+     * @brief constructor
+     * @param path String to file
+     * @param interval long delay between scans
+     */
+    public FileWatcher(String path, long interval) {
+        // check if intervak is valid
+        if (interval < 0) {
+            this.interval = 1000;
+        } else {
+            this.interval = interval;
+        }
+
         this.file = new File(path);
         if (!this.file.exists()) {
             throw new RuntimeException("File does not exist");
         }
+
+        // schedule timertask
+        this.timer = new Timer();
+        timer.schedule(this, 0L, this.interval);
+
         System.out.println("Starting... terminate with ctrl + c");
+
+        // add shutdownhook
         Runtime.getRuntime().addShutdownHook(new Thread() {
 
             @Override
@@ -20,23 +42,19 @@ public class FileWatcher extends Thread {
         });
     }
 
+    /**
+     * @brief once per interval print file size
+     */
     @Override
     public void run() {
-        while (this.file.exists()) {
-            System.out.println(file.length() + " Bytes");
-            try {
-                this.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println(this.file.length() + " bytes");
     }
 
     public static void main(String[] args) {
         if (args.length < 1) {
             throw new RuntimeException("no File given!");
         }
-        Thread f = new FileWatcher(args[0]);
+        Thread f = new Thread(new FileWatcher(args[0], 1000));
         f.start();
     }
 }
