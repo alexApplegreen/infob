@@ -1,32 +1,34 @@
 import java.io.*;
-import java.lang.Thread.*;
+import java.lang.*;
 
 public class FileWatcher extends Thread {
 
     private File file;
 
-    public FileWatcher(String path) throws IOException {
+    public FileWatcher(String path) {
         this.file = new File(path);
         if (!this.file.exists()) {
-            throw new IOException("File does not exist");
+            throw new RuntimeException("File does not exist");
         }
-        Runtime.getRuntime.addShutdownHook(new Thread() {
+        System.out.println("Starting... terminate with ctrl + c");
+        Runtime.getRuntime().addShutdownHook(new Thread() {
 
             @Override
             public void run() {
                 System.out.println("Terminating!");
             }
         });
-
     }
 
     @Override
     public void run() {
-        System.out.println(file.getTotalSpace());
-        try {
-            this.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (this.file.exists()) {
+            System.out.println(file.length() + " Bytes");
+            try {
+                this.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -34,11 +36,7 @@ public class FileWatcher extends Thread {
         if (args.length < 1) {
             throw new RuntimeException("no File given!");
         }
-        try {
-            FileWatcher f = new FileWatcher(args[0]);
-            f.run();
-        } catch (IOException e) {
-            System.out.println(e.getCause());
-        }
+        Thread f = new FileWatcher(args[0]);
+        f.start();
     }
 }
