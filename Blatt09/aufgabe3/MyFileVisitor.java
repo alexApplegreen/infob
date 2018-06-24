@@ -1,18 +1,18 @@
 import io.*;
 import java.io.*;
-import java.util.concurrent.*;
+import java.util.*;
 
 public class MyFileVisitor extends FileVisitorAdapter {
 
-    private ConcurrentLinkedQueue<String> list;
+    private ArrayList<String> list;
 
-    public MyFileVisitor(ConcurrentLinkedQueue<String> list) {
+    public MyFileVisitor(ArrayList<String> list) {
         super();
         this.list = list;
     }
 
-    public FileVisitResult visit(File file) {
-        this.list.add(file.getName());
+    public FileVisitResult visitFile(File file) {
+        this.list.add(file.getAbsolutePath());
         return FileVisitResult.CONTINUE;
     }
 
