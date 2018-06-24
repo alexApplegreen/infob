@@ -1,12 +1,13 @@
 import io.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MyFileVisitor extends FileVisitorAdapter {
 
-    private ArrayList<String> list;
+    private Queue<String> list;
 
-    public MyFileVisitor(ArrayList<String> list) {
+    public MyFileVisitor(Queue<String> list) {
         super();
         this.list = list;
     }
