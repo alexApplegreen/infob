@@ -1,4 +1,4 @@
-package antRace;
+package aufgabe2.antRace;
 
 
 public class AntRace implements AntFields {
@@ -7,7 +7,12 @@ public class AntRace implements AntFields {
 
 		AntField field = new AntField(FIELD4);
 
-		Ant ant = new Ant(field, 2, 4, 1);
+		Ant ant = null;
+		try {
+			ant = new Ant(field, 2, 4, 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		new Thread(ant).start();
 

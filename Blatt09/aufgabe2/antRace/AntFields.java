@@ -1,4 +1,4 @@
-package antRace;
+package aufgabe2.antRace;
 
 public interface AntFields {
 

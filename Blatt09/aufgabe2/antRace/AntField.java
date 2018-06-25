@@ -1,4 +1,4 @@
-package antRace;
+package aufgabe2.antRace;
 
 /**
  * The complete world on which the {@code Ant} instances in an {@code AntRace}
