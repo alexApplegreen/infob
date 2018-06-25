@@ -5,16 +5,26 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MyFileVisitor extends FileVisitorAdapter {
 
-    private Queue<String> list;
+    private ArrayList<File> list;
+    private boolean recursive;
 
-    public MyFileVisitor(Queue<String> list) {
+    public MyFileVisitor(ArrayList<File> list, boolean recursive) {
         super();
         this.list = list;
+        this.recursive = recursive;
     }
 
     public FileVisitResult visitFile(File file) {
-        this.list.add(file.getAbsolutePath());
+        this.list.add(file);
         return FileVisitResult.CONTINUE;
+    }
+
+    public FileVisitResult PreVisitDirectory(File dir) {
+        if (this.recursive) {
+            return FileVisitResult.CONTINUE;
+        } else {
+            return FileVisitResult.SKIP_SUBTREE;
+        }
     }
 
 }
