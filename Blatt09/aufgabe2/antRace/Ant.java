@@ -42,6 +42,7 @@ public class Ant implements Runnable {
             throw new RuntimeException("Field does not exist");
         }
         field.setValue(stepCount);
+        fields.increaseAntCount();
     }
 
     @Override
@@ -56,21 +57,24 @@ public class Ant implements Runnable {
             newX = x;
             newY = y;
 
-            for (int i = newX-1; i <= newX + 1; i++) {
-                for (int j = newY - 1; i <= newY + 1; i++) {
+            for (int i = newX - 1; i <= newX + 1; i++) {
+                for (int j = newY - 1; j <= newY + 1; j++) {
 
                     f = fields.getField(i, j);
 
                     if (f != null) {
                         synchronized (f) {
-                            if (f.getValue() == fields.FREE || f.getValue() >= stepCount) {
+
+                            int value = f.getValue();
+
+                            if (value == fields.FREE || value >= stepCount + 1) {
                                 if (!notDone) {
-                                    f.setValue(stepCount+1);
+                                    f.setValue(stepCount + 1);
                                     x = i;
                                     y = j;
                                     notDone = true;
                                 } else {
-                                    Ant helper = new Ant(fields, i, j, stepCount+1);
+                                    Ant helper = new Ant(fields, i, j, stepCount + 1);
                                     Thread t = new Thread(helper);
                                     t.start();
                                 }
@@ -83,6 +87,8 @@ public class Ant implements Runnable {
             stepCount++;
 
         } while (notDone);
+
+        fields.decreaseAntCount();
     }
 
 }

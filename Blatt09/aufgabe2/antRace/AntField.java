@@ -17,6 +17,8 @@ public class AntField {
 
    private Field[][] fields;
 
+   private int antCount = 0;
+
    /**
     * Uses {@code int} values to instantiate a new {@code AntField}. The columns
     * of {@code fields} may have different length. The {@code Field} elements of
@@ -130,6 +132,21 @@ public class AntField {
       return build.toString();
    }
 
+   public void increaseAntCount() {
+      antCount++;
+   }
+
+   public synchronized void decreaseAntCount() {
+      antCount--;
+      if (antCount == 0) {
+         this.notify();
+      }
+   }
+
+   public int getAntCount() {
+      return antCount;
+   }
+
    /**
     * One {@code Field} has a value, which may be
     * <ul>
@@ -186,4 +203,5 @@ public class AntField {
          this.value = value;
       }
    }
+
 }
